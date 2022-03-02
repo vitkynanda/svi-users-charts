@@ -1,7 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
 import Dashboard from "./dashboard";
-import { formatData } from "./utils";
+import { formatData } from "../../utils/formatData";
 
 export default function RealtimeChart() {
   const [currencies, setcurrencies] = useState([]);
