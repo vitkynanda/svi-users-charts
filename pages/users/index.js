@@ -66,7 +66,6 @@ export default function Users() {
           totalPage={data?.total_pages}
         />
       </div>
-
       <UsersTable data={data} isLoading={isLoading} />
     </Layout>
   );
