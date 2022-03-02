@@ -30,8 +30,6 @@ export default function Users() {
     },
   });
 
-  console.log(data);
-
   return (
     <Layout title="Users">
       <div className="flex items-center justify-between">

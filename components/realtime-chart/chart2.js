@@ -15,8 +15,6 @@ const RealtimeChart = () => {
       "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=1min&apikey=demo"
     );
 
-    console.log(json);
-
     // (json) => {
     //   let times = json["Time Series (1min)"];
 

@@ -8,7 +8,6 @@ const callApi = async ({ url, body, method }) => {
       body,
     });
 
-    console.log(response);
     if (response.status === 204) {
       toast.success("Deleted data successfully");
     }
