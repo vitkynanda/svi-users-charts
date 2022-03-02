@@ -1,5 +1,6 @@
+import { CircularProgress } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "./dashboard";
 import { formatData } from "./utils";
 
 export default function RealtimeChart() {
@@ -8,6 +9,7 @@ export default function RealtimeChart() {
   const [price, setprice] = useState("0.00");
   const [pastData, setpastData] = useState({});
   const ws = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   let first = useRef(false);
   const url = "https://api.pro.coinbase.com";
@@ -18,6 +20,7 @@ export default function RealtimeChart() {
     let pairs = [];
 
     const apiCall = async () => {
+      setLoading(true);
       await fetch(url + "/products")
         .then((res) => res.json())
         .then((data) => (pairs = data));
@@ -41,6 +44,7 @@ export default function RealtimeChart() {
       setcurrencies(filtered);
 
       first.current = true;
+      setLoading(false);
     };
 
     apiCall();
@@ -98,25 +102,28 @@ export default function RealtimeChart() {
     setpair(e.target.value);
   };
 
-  return (
+  return loading ? (
+    <div className="flex items-center justify-center h-40 w-full">
+      <CircularProgress />
+    </div>
+  ) : (
     <div className="container">
-      {
-        <select
-          name="currency"
-          value={pair}
-          onChange={handleSelect}
-          className="border border-gray-200"
-        >
-          {currencies?.map((cur, idx) => {
-            return (
-              <option key={idx} value={cur.id}>
-                {cur.display_name}
-              </option>
-            );
-          })}
-        </select>
-      }
-      <Dashboard price={price} data={pastData} pair={pair} />
+      <select
+        name="currency"
+        value={pair}
+        onChange={handleSelect}
+        className="border border-gray-200"
+      >
+        {currencies?.map((cur, idx) => {
+          return (
+            <option key={idx} value={cur.id}>
+              {cur.display_name}
+            </option>
+          );
+        })}
+      </select>
+
+      <Dashboard price={price} data={pastData} pair={pair} loading={loading} />
     </div>
   );
 }

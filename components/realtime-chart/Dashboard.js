@@ -1,8 +1,9 @@
+import { CircularProgress } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
-import DetailChart from "./DetailChart";
+import DetailChart from "./detail-chart";
 
-function Dashboard({ price, data, pair }) {
+function Dashboard({ price, data, pair, loading }) {
   const [updateData, setUpdateData] = useState({});
   const opts = {
     tooltips: {
@@ -32,7 +33,11 @@ function Dashboard({ price, data, pair }) {
   }, [data, price]);
 
   if (price === "0.00") {
-    return <h2>Please select a currency pair</h2>;
+    return (
+      <h2 className="mt-5">
+        {loading ? "Loading data" : "Please select a currency pair"}
+      </h2>
+    );
   }
 
   return (

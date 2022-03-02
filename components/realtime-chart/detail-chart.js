@@ -1,17 +1,19 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Line } from "react-chartjs-2";
 import formatTime from "../../utils/formatTime";
+import CloseIcon from "@mui/icons-material/Close";
+import { IconButton } from "@mui/material";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 600,
+  width: 700,
   maxHeight: 500,
   bgcolor: "background.paper",
   borderRadius: 2,
@@ -21,27 +23,8 @@ const style = {
 };
 
 export default function DetailChart({ data, options, price, pair }) {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-    setDetailData({
-      labels: [],
-      datasets: [
-        {
-          backgroundColor: "rgb(255, 99, 132, 0.8)",
-          borderColor: "rgba(255, 99, 132, 0.2)",
-          data: [],
-          fill: true,
-          label: "Price",
-        },
-      ],
-    });
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const [detailData, setDetailData] = React.useState({
+  const [open, setOpen] = useState(false);
+  const [detailData, setDetailData] = useState({
     labels: [],
     datasets: [
       {
@@ -53,8 +36,26 @@ export default function DetailChart({ data, options, price, pair }) {
       },
     ],
   });
+  const handleOpen = () => {
+    setOpen(true);
+    setDetailData({
+      labels: [formatTime()],
+      datasets: [
+        {
+          backgroundColor: "rgb(255, 99, 132, 0.8)",
+          borderColor: "rgba(255, 99, 132, 0.2)",
+          data: [price],
+          fill: true,
+          label: "Price",
+        },
+      ],
+    });
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-  React.useEffect(() => {
+  useEffect(() => {
     setDetailData({
       labels: [...detailData.labels, formatTime()],
       datasets: [
@@ -64,6 +65,7 @@ export default function DetailChart({ data, options, price, pair }) {
         },
       ],
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (
@@ -75,7 +77,12 @@ export default function DetailChart({ data, options, price, pair }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} className="relative">
+          <div className="absolute top-2 right-3">
+            <IconButton onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </div>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Detail Chart
           </Typography>
