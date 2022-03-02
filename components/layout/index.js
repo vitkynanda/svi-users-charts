@@ -114,7 +114,7 @@ export default function Layuot({ children, title }) {
       >
         <DrawerHeader>
           <div className="flex justify-between items-center w-full">
-            <p>Sharing Vision</p>
+            <p className="px-2 font-semibold text-lg">Sharing Vision</p>
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "ltr" ? (
                 <ChevronLeftIcon />
